@@ -1,4 +1,4 @@
-import pygame
+# import pygame
 import sys
 from copy import deepcopy
 import random
@@ -119,19 +119,19 @@ def mainAI():
 			if (stop):
 				break
 		if (not stop):
-			ais.sort(key=lambda x: x.fitness, reverse=True)
-			bests = ais[:20]
-			print([generation, bests[0].fitness, bests[0].apples, bests[0].steps])
+			fitnessSum = getFitnessSum(ais)
 			children = []
-			for _ in range(len(ais) - len(bests)):
-				parentA = bests[random.randint(0, len(bests) - 1)]
-				parentB = bests[random.randint(0, len(bests) - 1)]
+			for _ in range(len(ais) - 1):
+				parentA = selectParent(ais, fitnessSum)
+				parentB = selectParent(ais, fitnessSum)
 				child = deepcopy(parentA)
 				child.weights = mixWeights(parentA.weights, parentB.weights)
-				if (random.randint(1, 100) <= 5):
+				if (random.randint(1, 100) <= 20):
 					child.mutate()
 				children.append(child)
-			ais = bests + children
+			ais.sort(key=lambda x: x.fitness, reverse=True)
+			print([generation, ais[0].fitness, ais[0].apples, ais[0].steps])
+			ais = [ais[0]] + children
 			generation += 1
 	# pygame.quit()
 
