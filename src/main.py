@@ -80,7 +80,7 @@ def getInputsAI(game):
 		inputs += [1 / distanceToWall, 1 / distanceToSnake, 1 / distanceToApple]
 		# By doing `1 / value` we ensure that every value in the array is between -1 and 1
 
-	# The direction of the snake is also added to the inputs
+	# The direction of the snake's head is also added to the inputs
 	directions = [
 		1 if game.snake.direction == 'up' else 0,
 		1 if game.snake.direction == 'right' else 0,
@@ -89,7 +89,7 @@ def getInputsAI(game):
 	]
 	inputs += directions
 
-	# We add the direction of the snake's tail to the inputs
+	# To finish, we add the direction of the snake's tail to the inputs
 	tailIndex = len(game.snake.snake) - 1
 	tail = game.snake.snake[tailIndex]
 	beforeTail = game.snake.snake[tailIndex - 1]
@@ -178,6 +178,7 @@ def mainAI():
 				parentB = selectParent(ais, fitnessSum)
 				child = deepcopy(parentA)
 				child.weights = mixWeights(parentA.weights, parentB.weights)
+				# Each child has a 20% chances to mutate
 				if (random.randint(1, 100) <= 20):
 					child.mutate()
 				children.append(child)
