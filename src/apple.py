@@ -2,10 +2,12 @@ import random
 
 class Apple():
 	def __init__(self, size):
+		# Initialization
 		self.size = size
 		self.apple = [0, 0]
 
 	def getNewPosition(self, game):
+		# Check the whole grid to find spots where the snake isn't, then set the apple's position to one of those randomly
 		freePositions = []
 		for x in range(int(game.width / game.itemSize)):
 			for y in range(int(game.height / game.itemSize)):
